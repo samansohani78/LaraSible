@@ -5,11 +5,4 @@
   user: "{{ server_user }}"
   sudo: true
   roles:
-    - dependencies
-    - database
-    - webserver
-    - ftp
-    - monit
-    - wordpress
-  post_tasks:
-    - shell: service nginx reload
+    - LaraSible
