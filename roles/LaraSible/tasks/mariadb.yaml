@@ -26,3 +26,13 @@
   systemd:
     name: mariadb
     state: started
+
+- name: copy file conf
+  template:
+    src: server.cnf.j2
+    dest: /etc/mysql/conf.d/server.cnf
+
+- name: start service mariadb
+  systemd:
+    name: mariadb
+    state: restarted

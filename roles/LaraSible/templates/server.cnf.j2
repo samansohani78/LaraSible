@@ -1,0 +1,43 @@
+# MySQL #
+[mysqld]
+log-error=/var/lib/mysql/error_log
+local-infile=1
+# Limits #
+max_allowed_packet=256M
+open_files_limit=50000
+
+# Query Cache #
+query_cache_size=64M
+query_cache_type=1
+query_cache_limit=64M
+
+# /tmp config #
+tmp_table_size=256M
+
+
+max_heap_table_size=512M
+thread_cache_size=4
+table_open_cache=1000
+
+
+# Buffer size's #
+innodb_buffer_pool_size=1024M
+thread_pool_size=8
+innodb_buffer_pool_instances=8
+join_buffer_size=32M
+key_buffer_size=32M
+
+
+# MyIsam #
+default-storage-engine=MyISAM
+innodb_file_per_table=1
+[myisamchk]
+read_buffer=32M
+key_buffer=32M
+sort_buffer=32M
+write_buffer=32M
+
+# MySQL DUMP #
+[mysqldump]
+max_allowed_packet=1024M
+#innodb_use_sys_malloc=1
