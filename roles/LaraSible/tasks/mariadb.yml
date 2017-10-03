@@ -1,0 +1,38 @@
+---
+- name: "Add MariaDB 10.2 to ubuntu repository"
+  apt_repository:
+    repo: deb http://ftp.hosteurope.de/mirror/mariadb.org/repo/10.2/ubuntu xenial main
+    state: present
+
+- name: "Add MariaDB repository key to apt"
+  command: apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+
+- name: Update and Upgrade
+  apt:
+    upgrade: dist
+    update_cache: yes
+
+- name: Install the package "mariadb"
+  apt:
+    name: mariadb-server
+    state: present
+
+- name: "Enable mariadb in systemd"
+  systemd:
+    name: mariadb
+    enabled: yes
+
+- name: start service mariadb
+  systemd:
+    name: mariadb
+    state: started
+
+- name: copy file conf
+  template:
+    src: server.cnf.j2
+    dest: /etc/mysql/conf.d/server.cnf
+
+- name: start service mariadb
+  systemd:
+    name: mariadb
+    state: restarted

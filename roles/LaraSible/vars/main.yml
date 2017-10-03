@@ -1,0 +1,4 @@
+username: zabbix
+domin: zabbix
+zabbix_server_ip: 185.105.187.110
+zabbix_server_Active_ip: 185.105.187.110:10051

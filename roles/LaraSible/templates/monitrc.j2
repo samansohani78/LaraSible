@@ -1,0 +1,31 @@
+## Monit control file
+  set daemon 120            # check services at 2-minute intervals
+  set logfile /var/log/monit.log
+  set idfile /var/lib/monit/id
+  set statefile /var/lib/monit/state
+  set eventqueue
+      basedir /var/lib/monit/events # set the base directory where events will be stored
+      slots 100                     # optionally limit the queue size
+
+set httpd port 2812 and
+     use address {{ inventory_hostname }}  # only accept connection from localhost
+     allow 0.0.0.0/0.0.0.0        # allow localhost to connect to the server and
+     allow admin:monit      # require user 'admin' with password 'monit'
+
+check process mysqld with pidfile /var/lib/mysql/srv.pid
+    start program = "/bin/systemctl start mariadb.service"
+    stop program = "/bin/systemctl stop mariadb.service"
+
+check process nginx with pidfile /run/nginx.pid
+    start program = "/bin/systemctl start nginx.service"
+    stop program = "/bin/systemctl stop nginx.service"
+
+check host php-fpm with address 127.0.0.1
+  start program = "/bin/systemctl start php-fpm.service"
+  stop program = "/bin/systemctl stop php-fpm.service"
+  if failed port 9010 for 2 cycles then restart
+
+set daemon 30 with start delay 60
+set logfile syslog facility log_daemon
+set httpd port 2812
+    allow localhost

@@ -1,0 +1,22 @@
+---
+
+- name: install monit\
+  apt:
+    name: monit
+    state: latest
+
+- name: copy file conf
+  template:
+    src: monitrc.j2
+    dest: /etc/monit/monitrc
+
+- name: "change permission"
+  file:
+   path: /etc/monit/monitrc
+   mode: 0700
+
+- name: restart service monit
+  systemd:
+   name: monit
+   state: restarted
+   enabled: yes
